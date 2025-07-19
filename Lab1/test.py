@@ -1,1 +1,1 @@
-"Wellcome in Git and GitHub"
+print('Wellcome in Git and GitHub')
