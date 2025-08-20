@@ -1,0 +1,287 @@
+.table1{
+    width: 80%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: sans-serif;
+    border-radius: 10px 10px 0 0;
+    min-width: 400px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+}
+
+thead tr{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+}
+
+th{
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+}
+
+
+
+tbody tr{
+    border-bottom: 1px solid #dddddd;
+    text-align: center;
+}
+
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --gradient-start: #3498db;
+    --gradient-end: #2c3e50;
+}
+
+
+
+body {
+    padding-top: 70px;
+    font-family: 'Tajawal', sans-serif;
+}
+/* .table1{
+    width: 80%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: sans-serif;
+    border-radius: 10px 10px 0 0;
+    min-width: 400px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+}
+
+thead tr{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+}
+
+th{
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+}
+
+
+
+tbody tr{
+    border-bottom: 1px solid #dddddd;
+    text-align: center;
+}
+
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --gradient-start: #3498db;
+    --gradient-end: #2c3e50;
+}
+
+
+
+body {
+    padding-top: 70px;
+    font-family: 'Tajawal', sans-serif;
+} */
+/* CSS Variables for easy color management */
+
+
+ :root {
+    --primary-color: #3498db;       /* لون أساسي أزرق جذاب */
+    --secondary-color: #2c3e50;     /* لون ثانوي داكن */
+    --accent-color: #e74c3c;        /* لون مميز للتفاعلات */
+    --text-light: #ecf0f1;          /* نص فاتح */
+    --text-dark: #2c3e50;           /* نص داكن */
+    --hover-color: #2980b9;         /* لون عند التحويم */
+    --gradient-start: #3498db;      /* بداية التدرج اللوني */
+    --gradient-end: #2c3e50;        /* نهاية التدرج اللوني */
+    --shadow-color: rgba(0, 0, 0, 0.2); /* لون الظل */
+}
+
+/* Fixed Header Styles */
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    transition: all 0.3s ease;
+}
+
+/* Navbar Styles */
+.navbar {
+    padding: 0.8rem 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-light) !important;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.navbar-brand i {
+    margin-left: 10px;
+    font-size: 1.8rem;
+    color: var(--accent-color);
+}
+
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    background-color: var(--accent-color);
+    color: white !important;
+    font-weight: 600;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background-color: var(--text-light);
+    border-radius: 3px;
+}
+
+
+
+.dropdown-item {
+    color: var(--text-light);
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Toggle Button Styles */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: var(--secondary-color);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 10px;
+        box-shadow: 0 5px 15px var(--shadow-color);
+    }
+    
+    .nav-item {
+        margin: 0.3rem 0;
+    }
+    
+    .nav-link {
+        padding: 0.8rem 1rem !important;
+    }
+    
+    .dropdown-menu {
+        margin-left: 1rem;
+        width: 90%;
+    }
+}
+
+/* Animation for Nav Items */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-item {
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+}
+
+.nav-item:nth-child(1) { animation-delay: 0.1s; }
+.nav-item:nth-child(2) { animation-delay: 0.2s; }
+.nav-item:nth-child(3) { animation-delay: 0.3s; }
+.nav-item:nth-child(4) { animation-delay: 0.4s; }
+.nav-item:nth-child(5) { animation-delay: 0.5s; }
+.nav-item:nth-child(6) { animation-delay: 0.6s; }
+.nav-item:nth-child(7) { animation-delay: 0.7s; }
+.nav-item:nth-child(8) { animation-delay: 0.8s; }
+.nav-item:nth-child(9) { animation-delay: 0.9s; }
+/* CSS المحدث لتوزيع أفقي متساوٍ */
+.navbar-collapse {
+    display: flex;
+    justify-content: space-around; /* توزيع المساحة بالتساوي */
+    width: 100%;
+}
+
+.navbar-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between; /* توزيع العناصر بالتساوي */
+    margin: 0 auto;
+    max-width: 1200px; /* عرض أقصى للقائمة */
+}
+
+.nav-item {
+    flex: 1; /* جعل كل عنصر يأخذ نفس المساحة */
+    text-align: center; /* محاذاة النص في المنتصف */
+}
+
+.nav-link {
+    display: block;
+    padding: 0.5rem 0 !important; /* تعديل الحشو */
+}
+
+/* تعديلات للقوائم المنسدلة */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

@@ -1,0 +1,25 @@
+< <h2>Welcome : {{name}} </h2>
+<h2>You are from : {{address}} </h2>
+<h2>You are : {{age}} years old </h2>
+
+
+<!-- تحويل إلى أحرف كبيرة -->
+<p>{{ "hello world"|upper }}</p>  <!-- HELLO WORLD -->
+
+<!-- تحويل إلى أحرف صغيرة -->
+<p>{{ "HELLO"|lower }}</p>  <!-- hello -->
+
+<!-- تحويل الحرف الأول إلى كبير -->
+<p>{{ "hello"|capfirst }}</p>  <!-- Hello -->
+
+<!-- اقتطاع عدد محدد من الكلمات -->
+<p>{{ "This is a long sentence"|truncatewords:3 }}</p>  <!-- This is a ... -->
+
+<!-- اقتطاع عدد محدد من الأحرف -->
+<p>{{ "This is a long sentence"|truncatechars:10 }}</p>  <!-- This is a... -->
+
+<!-- إزالة المسافات الزائدة -->
+<p>{{ "   hello   "|cut:" " }}</p>  <!-- hello -->
+
+
+

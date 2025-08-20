@@ -1,0 +1,137 @@
+{% extends 'product/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="about-page py-5">
+    <div class="container">
+        <!-- قسم مقدمة الصفحة -->
+        <div class="about-intro text-center mb-5">
+            <h1 class="display-4 fw-bold mb-4">من نحن</h1>
+            <p class="lead">متجرنا الإلكتروني هو وجهتك الأولى لأحدث الأجهزة الإلكترونية بجودة عالية وأسعار تنافسية</p>
+        </div>
+
+        <!-- قسم تاريخ المتجر -->
+        <div class="about-history mb-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="{% static 'images/about-store.jpg' %}" class="img-fluid rounded shadow" alt="متجرنا">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-4">قصتنا</h2>
+                    <p class="mb-3">بدأنا رحلتنا في عام 2020 بمجموعة صغيرة من الأجهزة الإلكترونية، وبتفانٍ وعمل دؤوب، أصبحنا اليوم من أبرز المتاجر الإلكترونية في المنطقة.</p>
+                    <p class="mb-3">نؤمن بأن التكنولوجيا يجب أن تكون في متناول الجميع، ولذلك نعمل جاهدين لتقديم أفضل المنتجات بأفضل الأسعار.</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> منتجات أصلية بضمان رسمي</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> شحن سريع لكافة أنحاء المملكة</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> دعم فني متخصص</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم إحصائيات -->
+        <div class="about-stats py-5 mb-5" style="background-color: #f8f9fa;">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-box">
+                            <h3 class="display-4 fw-bold text-primary">{{ stats.customers }}+</h3>
+                            <p class="text-muted">عميل راضٍ</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-box">
+                            <h3 class="display-4 fw-bold text-primary">{{ stats.products }}+</h3>
+                            <p class="text-muted">منتج متنوع</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-box">
+                            <h3 class="display-4 fw-bold text-primary">{{ stats.years }}+</h3>
+                            <p class="text-muted">سنوات من الخبرة</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-box">
+                            <h3 class="display-4 fw-bold text-primary">{{ stats.awards }}+</h3>
+                            <p class="text-muted">جوائز وتكريمات</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم فريق العمل -->
+        <div class="about-team mb-5">
+            <div class="section-header text-center mb-5">
+                <h2 class="fw-bold">فريقنا</h2>
+                <p class="text-muted">الخبراء الذين يجعلون كل هذا ممكناً</p>
+            </div>
+            <div class="row">
+                {% for member in team_members %}
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="team-card card border-0 shadow-sm h-100">
+                        <img src="{% static member.image %}" class="card-img-top" alt="{{ member.name }}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">{{ member.name }}</h5>
+                            <p class="text-primary">{{ member.position }}</p>
+                            <p class="card-text">{{ member.bio }}</p>
+                            <div class="social-links">
+                                <a href="#" class="text-muted me-2"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="text-muted me-2"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="text-muted"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- قسم رسالة -->
+        <div class="about-message text-center py-5 mb-5" style="background-color: var(--primary-color); color: white;">
+            <div class="container">
+                <h2 class="fw-bold mb-4">رؤيتنا</h2>
+                <p class="lead mb-4">نسعى لأن نكون الخيار الأول لكل من يبحث عن أحدث الأجهزة الإلكترونية بجودة عالية وخدمة مميزة</p>
+                <a href="#" class="btn btn-light btn-lg">تواصل معنا</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .about-page {
+        background-color: white;
+    }
+    
+    .team-card {
+        transition: transform 0.3s;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .team-card img {
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    .stat-box {
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .social-links a {
+        transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+        color: var(--primary-color) !important;
+    }
+</style>
+{% endblock %}

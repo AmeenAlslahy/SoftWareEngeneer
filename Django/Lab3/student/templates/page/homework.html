@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل الشامل لأنظمة القوالب والفلاتر</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            line-height: 1.8;
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: var(--primary);
+            margin-top: 30px;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: right;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: var(--secondary);
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e6f7ff;
+        }
+        .code {
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #c7254e;
+        }
+        .note {
+            background-color: #e7f4ff;
+            border-right: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .warning {
+            background-color: #fff3e0;
+            border-right: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .example-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 الدليل الشامل لأنظمة القوالب والفلاتر</h1>
+        
+        <section id="template-comparison">
+            <h2>🔍 مقارنة شاملة لأنظمة القوالب</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>المعيار</th>
+                        <th>Django (DTL)</th>
+                        <th>Jinja2</th>
+                        <th>Mako</th>
+                        <th>Handlebars</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>الاستخدام الرئيسي</td>
+                        <td>مدمج مع Django</td>
+                        <td>Flask, FastAPI</td>
+                        <td>Pyramid, Pylons</td>
+                        <td>تطبيقات JavaScript</td>
+                    </tr>
+                    <tr>
+                        <td>الأمان</td>
+                        <td>⭐️⭐️⭐️⭐️⭐️ (Auto-escaping افتراضي)</td>
+                        <td>⭐️⭐️⭐️⭐️ (يتطلب تهيئة)</td>
+                        <td>⭐️⭐️ (غير آمن افتراضيًا)</td>
+                        <td>⭐️⭐️⭐️⭐️</td>
+                    </tr>
+                    <tr>
+                        <td>المرونة</td>
+                        <td>⭐️⭐️⭐️ (محدود)</td>
+                        <td>⭐️⭐️⭐️⭐️ (يدعم تعابير معقدة)</td>
+                        <td>⭐️⭐️⭐️⭐️⭐️ (يدعم كود Python مباشرة)</td>
+                        <td>⭐️⭐️⭐️</td>
+                    </tr>
+                    <tr>
+                        <td>الأداء</td>
+                        <td>⭐️⭐️⭐️</td>
+                        <td>⭐️⭐️⭐️⭐️</td>
+                        <td>⭐️⭐️⭐️⭐️⭐️</td>
+                        <td>⭐️⭐️⭐️ (على العميل)</td>
+                    </tr>
+                    <tr>
+                        <td>مثال</td>
+                        <td class="code">{ if user.is_authenticated %}</td>
+                        <td class="code">{ if user.admin or user.staff %}</td>
+                        <td class="code">&lt;% names = [n.upper() for n in names] %></td>
+                        <td class="code">{ if user.is_authenticated and user.is_staff %}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="note">
+                <strong>ملاحظة:</strong> DTL هو الأفضل لتطبيقات Django الكبيرة لتحقيق الأمان والثبات، بينما Jinja2 يقدم مرونة أكبر لأولئك القادمين من خلفيات أخرى.
+            </div>
+        </section>
+
+        <section id="filters-comparison">
+            <h2>🔧 مقارنة شاملة للفلاتر</h2>
+            
+            <h3>فلاتر النصوص</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الفلتر</th>
+                        <th>DTL</th>
+                        <th>Jinja2</th>
+                        <th>الوصف</th>
+                        <th>مثال الناتج</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>تحويل لحروف كبيرة</td>
+                        <td class="code">{{ "hello"|upper }}</td>
+                        <td class="code">{{ "hello"|upper }}</td>
+                        <td>تحويل كل الحروف لكبيرة</td>
+                        <td>HELLO</td>
+                    </tr>
+                    <tr>
+                        <td>تحويل لحروف صغيرة</td>
+                        <td class="code">{{ "HELLO"|lower }}</td>
+                        <td class="code">{{ "HELLO"|lower }}</td>
+                        <td>تحويل كل الحروف لصغيرة</td>
+                        <td>hello</td>
+                    </tr>
+                    <tr>
+                        <td>أول حرف كبير</td>
+                        <td class="code">{{ "hello"|capfirst }}</td>
+                        <td class="code"> {{ "hello"|capfirst }}</td>
+                        <td>تحويل أول حرف لكبير</td>
+                        <td>Hello</td>
+                    </tr>
+                    <tr>
+                        <td>اقتطاع كلمات</td>
+                        <td class="code">{{ text|truncatewords:5 }}</td>
+                        <td class="code">{{ text|truncatechars:5 }}</td>
+                        <td>اقتطاع النص بعد عدد الكلمات</td>
+                        <td>هذا النص طويل... (إذا كان 5 كلمات)</td>
+                    </tr>
+                    <tr>
+                        <td>إزالة مسافات</td>
+                        <td class="code">{{ " hello "|cut:" " }}</td>
+                        <td class="code">{ " hello "| trim }</td>
+                        <td>إزالة المسافات الزائدة</td>
+                        <td>hello</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>فلاتر الأرقام</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الفلتر</th>
+                        <th>DTL</th>
+                        <th>Jinja2</th>
+                        <th>الوصف</th>
+                        <th>مثال الناتج</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>تنسيق الأرقام</td>
+                        <td class="code">{ 1234567|intcomma }</td>
+                        <td class="code">{ 1234567|number_format }</td>
+                        <td>إضافة فواصل للأرقام</td>
+                        <td>1,234,567</td>
+                    </tr>
+                    <tr>
+                        <td>تقريب الأرقام</td>
+                        <td class="code">{{ 3.14159|floatformat:'2' }}</td>
+                        <td class="code">{ 3.14159|round(2) }</td>
+                        <td>تقريب العدد العشري</td>
+                        <td>3.14</td>
+                    </tr>
+                    <tr>
+                        <td>العمليات الحسابية</td>
+                        <td class="code">{{ 10|add:5 }}</td>
+                        <td class="code">{ 10|add(5) }</td>
+                        <td>إجراء عملية جمع</td>
+                        <td>15</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>فلاتر التاريخ والوقت</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الفلتر</th>
+                        <th>DTL</th>
+                        <th>Jinja2</th>
+                        <th>الوصف</th>
+                        <th>مثال الناتج</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>تنسيق التاريخ</td>
+                        <td class="code">{{ today|date:"Y-m-d" }}</td>
+                        <td class="code">{ today|date('%Y-%m-%d') }</td>
+                        <td>تنسيق التاريخ حسب الصيغة</td>
+                        <td>2023-05-15</td>
+                    </tr>
+                    <tr>
+                        <td>الوقت المنقضي</td>
+                        <td class="code">{{ post.date|timesince }}</td>
+                        <td class="code">{{ post.date|timesince }}</td>
+                        <td>الوقت المنقضي منذ التاريخ</td>
+                        <td>3 أيام، 4 ساعات</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="custom-filters">
+            <h2>🛠 إنشاء Custom Filters في Django</h2>
+            
+            <h3>الخطوات الأساسية</h3>
+            <ol>
+                <li>إنشاء مجلد <span class="code">templatetags</span> داخل تطبيقك</li>
+                <li>إنشاء ملف <span class="code">__init__.py</span> (فارغ)</li>
+                <li>إنشاء ملف للفلاتر مثل <span class="code">custom_filters.py</span></li>
+                <li>تسجيل وتنفيذ الفلاتر المخصصة</li>
+            </ol>
+            
+            <div class="example-box">
+                <h4>مثال 1: فلتر الضرب</h4>
+                <pre>
+# templatetags/custom_filters.py
+from django import template
+
+register = template.Library()
+
+@register.filter(name='multiply')
+def multiply(value, arg):
+    """يضرب القيمة في الوسيط"""
+    try:
+        return float(value) * float(arg)
+    except (ValueError, TypeError):
+        return ''</pre>
+                
+                <p>الاستخدام في القالب:</p>
+                <p class="code">{ load custom_filters %}</p>
+                <p class="code">السعر بعد الضريبة: { product.price|multiply:'1.15' }</p>
+            </div>
+            
+            <div class="example-box">
+                <h4>مثال 2: فلتر التمييز (Highlight)</h4>
+                <pre>
+# templatetags/custom_filters.py
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+
+@register.filter(name='highlight')
+def highlight(text, query):
+    """يميز الكلمات المطلوبة في النص"""
+    if not query:
+        return text
+    text = escape(text)
+    query = escape(query)
+    highlighted = text.replace(query, f'&lt;span class="highlight">{query}&lt;/span>')
+    return mark_safe(highlighted)</pre>
+                
+                <p>الاستخدام في القالب:</p>
+                <p class="code">نتائج البحث: { result.text|highlight:search_query }</p>
+            </div>
+            
+            <div class="example-box">
+                <h4>مثال 3: فلتر تحويل الأرقام إلى كلمات</h4>
+                <pre>
+# templatetags/custom_filters.py
+@register.filter(name='number_to_words')
+def number_to_words(value):
+    """يحول الأرقام إلى كلمات (0-10)"""
+    num_words = [
+        'صفر', 'واحد', 'اثنان', 'ثلاثة', 'أربعة',
+        'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة', 'عشرة'
+    ]
+    try:
+        num = int(value)
+        if 0 <= num <= 10:
+            return num_words[num]
+        return str(num)
+    except (ValueError, TypeError):
+        return value</pre>
+                
+                <p>الاستخدام في القالب:</p>
+                <p class="code">لديك { notifications.count|number_to_words } إشعارات جديدة</p>
+            </div>
+            
+            <div class="warning">
+                <strong>تحذير:</strong> عند التعامل مع HTML في الفلاتر المخصصة، يجب استخدام <span class="code">mark_safe</span> بحذر وتأكد من هروب (escape) كل المدخلات غير الموثوقة لمنع ثغرات XSS.
+            </div>
+        </section>
+
+        <section id="advanced-examples">
+            <h2>⚡ أمثلة متقدمة للفلاتر المخصصة</h2>
+            
+            <div class="example-box">
+                <h4>فلتر لإنشاء روابط Twitter</h4>
+                <pre>
+@register.filter(name='twitterize')
+def twitterize(text):
+    """يحول @username إلى روابط Twitter"""
+    import re
+    pattern = re.compile(r'@(\w+)')
+    replaced = pattern.sub(
+        r'&lt;a href="https://twitter.com/\1" target="_blank">@\1&lt;/a>',
+        escape(text)
+    )
+    return mark_safe(replaced)</pre>
+                
+                <p>الاستخدام:</p>
+                <p class="code">التغريدة: { tweet.text|twitterize }</p>
+            </div>
+            
+            <div class="example-box">
+                <h4>فلتر لتنسيق أرقام الهواتف</h4>
+                <pre>
+@register.filter(name='format_phone')
+def format_phone(value, country='SA'):
+    """يضبط تنسيق رقم الهاتف حسب البلد"""
+    if not value:
+        return ''
+    
+    # إزالة كل ما ليس رقم
+    cleaned = ''.join(c for c in str(value) if c.isdigit())
+    
+    if country == 'SA' and len(cleaned) == 9:
+        return f"+966 {cleaned[:1]} {cleaned[1:4]} {cleaned[4:7]} {cleaned[7:]}"
+    elif country == 'EG' and len(cleaned) == 10:
+        return f"+20 {cleaned[:2]} {cleaned[2:6]} {cleaned[6:]}"
+    
+    return value</pre>
+                
+                <p>الاستخدام:</p>
+                <p class="code">الهاتف: { user.phone|format_phone:'SA' }</p>
+            </div>
+            
+            <div class="example-box">
+                <h4>فلتر لتقييم تعبيرات رياضية</h4>
+                <pre>
+@register.filter(name='evaluate')
+def evaluate(text):
+    """يقيم تعبيرات رياضية بسيطة"""
+    try:
+        from ast import literal_eval
+        return literal_eval(text)
+    except (ValueError, SyntaxError):
+        return text</pre>
+                
+                <p>الاستخدام:</p>
+                <p class="code">ناتج المعادلة: { "3 * (4 + 5)"|evaluate }</p>
+                <p class="code">(سيعرض: 27)</p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

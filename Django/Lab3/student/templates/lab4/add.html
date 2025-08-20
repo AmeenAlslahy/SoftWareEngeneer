@@ -1,0 +1,116 @@
+{% extends 'lab4/base.html' %}
+
+{% block title %}إضافة طالب جديد{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-user-plus"></i> إضافة طالب جديد</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'student_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> رجوع
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">معلومات الطالب</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">الاسم الكامل</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                    <div class="invalid-feedback">يرجى إدخال اسم الطالب</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="age" class="form-label">العمر</label>
+                    <input type="number" class="form-control" id="age" name="age" required>
+                    <div class="invalid-feedback">يرجى إدخال عمر الطالب</div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="gender" class="form-label">الجنس</label>
+                    <select class="form-select" id="gender" name="gender" required>
+                        <option value="" selected disabled>اختر الجنس</option>
+                        <option value="ذكر">ذكر</option>
+                        <option value="أنثى">أنثى</option>
+                    </select>
+                    <div class="invalid-feedback">يرجى اختيار الجنس</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="state" class="form-label">الحالة</label>
+                    <select class="form-select" id="state" name="state" required>
+                        <option value="" selected disabled>اختر الحالة</option>
+                        <option value="نشط">نشط</option>
+                        <option value="غير نشط">غير نشط</option>
+                    </select>
+                    <div class="invalid-feedback">يرجى اختيار الحالة</div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="level" class="form-label">المستوى</label>
+                    <input type="text" class="form-control" id="level" name="level" required>
+                    <div class="invalid-feedback">يرجى إدخال المستوى</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="system" class="form-label">النظام</label>
+                    <input type="text" class="form-control" id="system" name="system" required>
+                    <div class="invalid-feedback">يرجى إدخال النظام</div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="email" class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">رقم الهاتف</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                    <div class="invalid-feedback">يرجى إدخال رقم هاتف صحيح</div>
+                </div>
+            </div>
+            
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> حفظ
+                </button>
+                <a href="{% url 'student_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> إلغاء
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+{% endblock %}

@@ -1,0 +1,278 @@
+{% extends 'students/base.html' %}
+
+{% block title %}التقارير{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-chart-bar"></i> التقارير</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="printReport">
+                <i class="fas fa-print"></i> طباعة
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="exportPDF">
+                <i class="fas fa-file-pdf"></i> تصدير PDF
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="exportExcel">
+                <i class="fas fa-file-excel"></i> تصدير Excel
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">تقرير الطلاب حسب المستوى</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="levelChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">توزيع الطلاب حسب الجنس</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="genderChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">تقرير تفصيلي للطلاب</h5>
+        <div class="report-filters">
+            <select class="form-select form-select-sm" id="filterLevel" style="width: 150px;">
+                <option value="">جميع المستويات</option>
+                <option value="الأول">المستوى الأول</option>
+                <option value="الثاني">المستوى الثاني</option>
+                <option value="الثالث">المستوى الثالث</option>
+            </select>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="detailedReport">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>الاسم الكامل</th>
+                        <th>المستوى</th>
+                        <th>الجنس</th>
+                        <th>الحالة</th>
+                        <th>تاريخ التسجيل</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.level }}</td>
+                        <td>{{ student.gender }}</td>
+                        <td>
+                            <span class="badge bg-{% if student.state == 'نشط' %}success{% else %}danger{% endif %}">
+                                {{ student.state }}
+                            </span>
+                        </td>
+                        <td>{{ student.created_at|date:"Y/m/d" }}</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">عرض</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- نموذج تصدير التقرير -->
+<div class="modal fade" id="exportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">تصدير التقرير</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="exportForm">
+                    <div class="mb-3">
+                        <label for="exportType" class="form-label">نوع التصدير</label>
+                        <select class="form-select" id="exportType">
+                            <option value="pdf">PDF</option>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reportRange" class="form-label">الفترة الزمنية</label>
+                        <select class="form-select" id="reportRange">
+                            <option value="all">كل البيانات</option>
+                            <option value="today">اليوم</option>
+                            <option value="week">هذا الأسبوع</option>
+                            <option value="month">هذا الشهر</option>
+                            <option value="year">هذه السنة</option>
+                            <option value="custom">مخصص</option>
+                        </select>
+                    </div>
+                    <div class="row g-2 mb-3" id="customDateRange" style="display: none;">
+                        <div class="col-md-6">
+                            <label for="startDate" class="form-label">من تاريخ</label>
+                            <input type="date" class="form-control" id="startDate">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="endDate" class="form-label">إلى تاريخ</label>
+                            <input type="date" class="form-control" id="endDate">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                <button type="button" class="btn btn-primary" id="confirmExport">تصدير</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// تفعيل الرسوم البيانية باستخدام Chart.js
+document.addEventListener('DOMContentLoaded', function() {
+    // بيانات الطلاب حسب المستوى
+    const levelCtx = document.getElementById('levelChart').getContext('2d');
+    const levelChart = new Chart(levelCtx, {
+        type: 'bar',
+        data: {
+            labels: ['المستوى الأول', 'المستوى الثاني', 'المستوى الثالث', 'المستوى الرابع'],
+            datasets: [{
+                label: 'عدد الطلاب',
+                data: [45, 32, 28, 36],
+                backgroundColor: [
+                    'rgba(52, 152, 219, 0.7)',
+                    'rgba(155, 89, 182, 0.7)',
+                    'rgba(46, 204, 113, 0.7)',
+                    'rgba(241, 196, 15, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(52, 152, 219, 1)',
+                    'rgba(155, 89, 182, 1)',
+                    'rgba(46, 204, 113, 1)',
+                    'rgba(241, 196, 15, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // توزيع الطلاب حسب الجنس
+    const genderCtx = document.getElementById('genderChart').getContext('2d');
+    const genderChart = new Chart(genderCtx, {
+        type: 'pie',
+        data: {
+            labels: ['ذكر', 'أنثى'],
+            datasets: [{
+                data: [65, 35],
+                backgroundColor: [
+                    'rgba(52, 152, 219, 0.7)',
+                    'rgba(231, 76, 60, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(52, 152, 219, 1)',
+                    'rgba(231, 76, 60, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // تصفية الجدول حسب المستوى
+    document.getElementById('filterLevel').addEventListener('change', function() {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#detailedReport tbody tr');
+        
+        rows.forEach(row => {
+            const level = row.cells[2].textContent.toLowerCase();
+            row.style.display = filter === '' || level.includes(filter) ? '' : 'none';
+        });
+    });
+
+    // إظهار/إخفاء نطاق التاريخ المخصص
+    document.getElementById('reportRange').addEventListener('change', function() {
+        document.getElementById('customDateRange').style.display = 
+            this.value === 'custom' ? 'flex' : 'none';
+    });
+
+    // تفعيل زر التصدير
+    document.getElementById('exportPDF').addEventListener('click', function() {
+        // هنا يمكنك إضافة كود تصدير PDF
+        alert('سيتم تصدير التقرير كملف PDF');
+    });
+
+    document.getElementById('exportExcel').addEventListener('click', function() {
+        // هنا يمكنك إضافة كود تصدير Excel
+        alert('سيتم تصدير التقرير كملف Excel');
+    });
+
+    document.getElementById('printReport').addEventListener('click', function() {
+        window.print();
+    });
+});
+</script>
+
+<style>
+/* تنسيقات إضافية للتقارير */
+.report-filters {
+    display: flex;
+    gap: 10px;
+}
+
+.card-header {
+    padding: 1rem 1.25rem;
+}
+
+@media print {
+    .navbar, .sidebar, .btn-toolbar, .footer {
+        display: none !important;
+    }
+    
+    body {
+        padding: 20px;
+        background: white;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: none;
+    }
+}
+</style>
+{% endblock %}

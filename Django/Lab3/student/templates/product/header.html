@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الإلكترونيات</title>
+    <!-- تضمين Bootstrap باللغة العربية -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <!-- أيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+        
+        .search-input {
+            border-radius: 25px;
+            padding-right: 45px;
+            border: 1px solid #ddd;
+        }
+        
+        .search-btn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary-color);
+        }
+        
+        .cart-icon, .user-icon {
+            position: relative;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dropdown-item:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        .category-dropdown .dropdown-menu {
+            background-color: var(--dark-color);
+        }
+        
+        .category-dropdown .dropdown-item {
+            color: white;
+        }
+        
+        .category-dropdown .dropdown-item:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- الشريط العلوي -->
+        <div class="top-bar py-2 d-none d-md-block" style="background-color: var(--dark-color); color: white;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span><i class="fas fa-phone-alt me-2"></i> 0123456789</span>
+                        <span class="ms-3"><i class="fas fa-envelope me-2"></i> info@electronics-store.com</span>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <span><i class="fas fa-truck me-2"></i> شحن مجاني للطلبات فوق 500 ريال</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- شريط التنقل الرئيسي -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <i class="fas fa-laptop-code me-2"></i>متجر الإلكترونيات
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <!-- شريط البحث -->
+                    <form class="d-flex mx-3 my-2 my-lg-0" action="{% url 'product_search' %}" method="get">
+                        <div class="search-box">
+                            <input class="form-control search-input" type="search" name="q" placeholder="ابحث عن منتج..." aria-label="Search">
+                            <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                    
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home me-1"></i> الرئيسية</a>
+                        </li>
+                        
+                        <!-- قائمة التصنيفات -->
+                        <li class="nav-item dropdown category-dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-list me-1"></i> التصنيفات
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for category in categories %}
+                                    <li><a class="dropdown-item" href="{% url 'category_products' category.slug %}">{{ category.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}"><i class="fas fa-info-circle me-1"></i> عن المتجر</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-phone-alt me-1"></i> اتصل بنا</a>
+                        </li>
+                    </ul>
+                    
+                    <!-- أيقونات المستخدم والسلة -->
+                    <div class="d-flex">
+                        <a href="#" class="btn btn-link position-relative me-2 cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">{{ cart_items_count }}</span>
+                        </a>
+                        
+                        {% if user.is_authenticated %}
+                            <div class="dropdown">
+                                <a class="btn btn-link dropdown-toggle user-icon" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">الملف الشخصي</a></li>
+                                    <li><a class="dropdown-item" href="#">طلباتي</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">تسجيل خروج</a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-link user-icon">
+                                <i class="fas fa-user"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- تضمين Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

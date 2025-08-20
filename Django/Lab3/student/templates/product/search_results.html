@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="search-results-page py-5">
+    <div class="container">
+        <!-- عنوان صفحة البحث وشريط البحث -->
+        <div class="search-header mb-5">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="fw-bold mb-3">نتائج البحث</h1>
+                    {% if query %}
+                        <p class="lead">عرض النتائج لـ "<span class="text-primary">{{ query }}</span>"</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <form class="search-form" action="{% url 'product_search' %}" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg" name="q" value="{{ query }}" placeholder="ابحث عن منتجات...">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i> بحث
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- عوامل التصفية -->
+        <div class="search-filters mb-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="d-flex flex-wrap filter-buttons">
+                        <div class="dropdown me-2 mb-2">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter me-1"></i> الفئة
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="?q={{ query }}">الكل</a></li>
+                                {% for cat in categories %}
+                                <li><a class="dropdown-item" href="?q={{ query }}&category={{ cat.slug }}">{{ cat.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="dropdown me-2 mb-2">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-sort me-1"></i> الترتيب
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="?q={{ query }}&sort=name">الاسم من أ-ي</a></li>
+                                <li><a class="dropdown-item" href="?q={{ query }}&sort=-name">الاسم من ي-أ</a></li>
+                                <li><a class="dropdown-item" href="?q={{ query }}&sort=price">السعر من الأقل</a></li>
+                                <li><a class="dropdown-item" href="?q={{ query }}&sort=-price">السعر من الأعلى</a></li>
+                                <li><a class="dropdown-item" href="?q={{ query }}&sort=-created_at">الأحدث</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="mb-0 text-muted">تم العثور على <strong>{{ products.count }}</strong> منتج</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- نتائج البحث -->
+        <div class="search-results">
+            {% if products %}
+            <div class="row">
+                {% for product in products %}
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card border-0 shadow-sm h-100">
+                        <!-- علامة الخصم أو الجديد -->
+                        <div class="badge-container position-absolute top-0 start-0 p-2">
+                            {% if product.is_new %}
+                            <span class="badge bg-success">جديد</span>
+                            {% endif %}
+                            {% if product.discount_percentage %}
+                            <span class="badge bg-danger">{{ product.discount_percentage }}% خصم</span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- صورة المنتج -->
+                        <a href="{% url 'product_detail' product.slug %}">
+                            <img src="{{ product.main_image.url }}" class="card-img-top p-3" alt="{{ product.name }}" style="height: 200px; object-fit: contain;">
+                        </a>
+                        
+                        <!-- تفاصيل المنتج -->
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <a href="{% url 'category_products' product.category.slug %}" class="text-muted small">{{ product.category.name }}</a>
+                                <div class="rating small text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-muted ms-1">({{ product.review_count }})</span>
+                                </div>
+                            </div>
+                            <h5 class="card-title">
+                                <a href="{% url 'product_detail' product.slug %}" class="text-dark">{{ product.name }}</a>
+                            </h5>
+                            <div class="price mb-3">
+                                {% if product.discount_price %}
+                                <span class="text-danger fw-bold">{{ product.discount_price }} ر.س</span>
+                                <span class="text-muted text-decoration-line-through ms-2">{{ product.price }} ر.س</span>
+                                {% else %}
+                                <span class="fw-bold">{{ product.price }} ر.س</span>
+                                {% endif %}
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}">
+                                    <i class="fas fa-shopping-cart me-1"></i> أضف إلى السلة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <!-- حالة عدم وجود نتائج -->
+            <div class="no-results text-center py-5">
+                <img src="{% static 'images/no-results.svg' %}" alt="لا توجد نتائج" class="img-fluid mb-4" style="max-height: 200px;">
+                <h4 class="mb-3">لا توجد منتجات مطابقة لبحثك</h4>
+                <p class="text-muted mb-4">حاول استخدام كلمات بحث مختلفة أو تصفح متجرنا</p>
+                <a href="{% url 'products' %}" class="btn btn-primary">استعرض جميع المنتجات</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- التقسيم الصفحي (Pagination) -->
+        {% if products.has_other_pages %}
+        <div class="pagination-wrapper mt-5">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if products.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ products.previous_page_number }}" aria-label="السابق">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                    {% endif %}
+
+                    {% for i in products.paginator.page_range %}
+                    {% if products.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?q={{ query }}&page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if products.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?q={{ query }}&page={{ products.next_page_number }}" aria-label="التالي">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    /* أنماط مخصصة لصفحة نتائج البحث */
+    .search-results-page {
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 150px);
+    }
+    
+    .search-header {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .search-form .input-group {
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        border-radius: 50px;
+    }
+    
+    .search-form .form-control {
+        border-radius: 50px 0 0 50px;
+        border: none;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .search-form .btn {
+        border-radius: 0 50px 50px 0;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .filter-buttons .btn-outline-secondary {
+        border-radius: 50px;
+        padding: 0.5rem 1rem;
+    }
+    
+    .product-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .no-results {
+        background-color: white;
+        padding: 3rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .pagination .page-item .page-link {
+        color: var(--primary-color);
+        border: none;
+        margin: 0 5px;
+        border-radius: 50% !important;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // إضافة منتج إلى السلة
+        $('.add-to-cart').click(function() {
+            const productId = $(this).data('product-id');
+            // هنا يمكنك إضافة كود AJAX لإضافة المنتج للسلة
+            alert('تمت إضافة المنتج إلى السلة');
+            
+            // تحديث عداد السلة
+            $.ajax({
+                url: '{% url "add_to_cart" %}',
+                method: 'POST',
+                data: {
+                    product_id: productId,
+                    quantity: 1,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    $('.cart-count').text(response.cart_items_count);
+                }
+            });
+        });
+        
+        // حفظ استعلام البحث في localStorage لعرض اقتراحات لاحقة
+        {% if query %}
+        if(typeof(Storage) !== "undefined") {
+            let searches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+            if(!searches.includes('{{ query }}')) {
+                searches.unshift('{{ query }}');
+                localStorage.setItem('recentSearches', JSON.stringify(searches.slice(0, 5)));
+            }
+        }
+        {% endif %}
+    });
+</script>
+{% endblock %}

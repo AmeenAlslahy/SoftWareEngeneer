@@ -1,0 +1,83 @@
+<footer class="main-footer">
+    <div class="container">
+        <div class="row">
+            <!-- معلومات الاتصال -->
+            <div class="col-lg-4 col-md-6 footer-section">
+                <h5 class="footer-title">
+                    <i class="fas fa-university"></i> نظام إدارة الطلاب
+                </h5>
+                <p class="footer-text">
+                    نظام متكامل لإدارة بيانات الطلاب، الحضور والغياب، والدرجات الأكاديمية.
+                </p>
+                <div class="contact-info">
+                    <p><i class="fas fa-map-marker-alt"></i> اليمن / إب </p>
+                    <p><i class="fas fa-phone"></i>713555262</p>
+                    <p><i class="fas fa-envelope"></i> alslahyamyn95@gamil.com</p>
+                </div>
+            </div>
+            
+            <!-- روابط سريعة -->
+            <div class="col-lg-2 col-md-6 footer-section">
+                <h5 class="footer-title">روابط سريعة</h5>
+                <ul class="footer-links">
+                    <li><a href="{% url 'student_list' %}"><i class="fas fa-angle-left"></i> الرئيسية</a></li>
+                    <li><a href="{% url 'add_student' %}"><i class="fas fa-angle-left"></i> إضافة طالب</a></li>
+                    <li><a href="#"><i class="fas fa-angle-left"></i> التقارير</a></li>
+                    <li><a href="#"><i class="fas fa-angle-left"></i> الإحصائيات</a></li>
+                    <li><a href="#"><i class="fas fa-angle-left"></i> الدعم الفني</a></li>
+                </ul>
+            </div>
+            
+            <!-- خدمات إضافية -->
+            <div class="col-lg-3 col-md-6 footer-section">
+                <h5 class="footer-title">خدمات إضافية</h5>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-angle-left"></i> البريد الإلكتروني</a></li>
+                    <li><a href="#"><i class="fas fa-angle-left"></i> المكتبة الرقمية</a></li>
+                    <li><a href="#"><i class="fas fa-angle-left"></i> الأنظمة الأكاديمية</a></li>
+                    <li><a href="#"><i class="fas fa-angle-left"></i> الدليل الأكاديمي</a></li>
+                    <li><a href="#"><i class="fas fa-angle-left"></i> الأسئلة الشائعة</a></li>
+                </ul>
+            </div>
+            
+            <!-- وسائل التواصل -->
+            <div class="col-lg-3 col-md-6 footer-section">
+                <h5 class="footer-title">تواصل معنا</h5>
+                <div class="social-media">
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+                
+                <div class="newsletter mt-3">
+                    <p>اشترك في نشرتنا البريدية</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="بريدك الإلكتروني" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- حقوق النشر -->
+        <div class="copyright-section">
+            <hr class="footer-divider">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="copyright-text">
+                        &copy; 2025 نظام إدارة الطلاب. جميع الحقوق محفوظة.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <ul class="footer-policy-links">
+                        <li><a href="#">شروط الاستخدام</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                        <li><a href="#">خريطة الموقع</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

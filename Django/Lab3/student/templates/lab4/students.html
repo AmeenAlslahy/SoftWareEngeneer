@@ -1,0 +1,458 @@
+{% extends 'lab4/base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<div class="student-container">
+    <div class="student-header">
+        <h1 class="student-title"><i class="fas fa-user-graduate"></i> سجل الطلاب</h1>
+        <div class="student-actions">
+            <button class="btn btn-add"><i class="fas fa-plus"></i> إضافة طالب جديد</button>
+            <div class="search-box">
+                <input type="text" id="studentSearch" placeholder="ابحث عن طالب بالاسم، المستوى، الإيميل..." class="search-input">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="student-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>الاسم الكامل</th>
+                    <th>العمر</th>
+                    <th>الحالة</th>
+                    <th>الجنس</th>
+                    <th>المستوى</th>
+                    <th>الإيميل</th>
+                    <th>رقم الهاتف</th>
+                    <th>النظام</th>
+                    <th>الإجراءات</th>
+                </tr>       
+            </thead>
+            <tbody>
+                {% for x in std %}
+                <tr>
+                    <td>{{x.id}}</td>
+                    <td>
+                        <div class="student-avatar">
+                            <img src="https://ui-avatars.com/api/?name={{x.name}}&background=random" alt="{{x.name}}">
+                            {{x.name}}
+                        </div>
+                    </td>
+                    <td>{{x.age}}</td>
+                    <td><span class="status-badge {% if x.state == 'نشط' %}active{% else %}inactive{% endif %}">{{x.state}}</span></td>
+                    <td>
+                        {% if x.gender == 'ذكر' %}
+                            <i class="fas fa-mars male-icon"></i>
+                        {% else %}
+                            <i class="fas fa-venus female-icon"></i>
+                        {% endif %}
+                        {{x.gender}}
+                    </td>
+                    <td><span class="level-badge">{{x.level}}</span></td>
+                    <td><a href="mailto:{{x.email}}" class="email-link">{{x.email}}</a></td>
+                    <td><a href="tel:{{x.phone}}" class="phone-link">{{x.phone}}</a></td>
+                    <td>{{x.system}}</td>
+                    <td class="actions-cell">
+                        <button class="btn-action view-btn" title="عرض"><i class="fas fa-eye"></i></button>
+                        <button class="btn-action edit-btn" title="تعديل"><i class="fas fa-edit"></i></button>
+                        <button class="btn-action delete-btn" title="حذف"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-container">
+        <div class="pagination-info">
+            عرض <span>1-10</span> من <span>50</span> طالب
+        </div>
+        <div class="pagination-controls">
+            <button class="pagination-btn" disabled><i class="fas fa-angle-double-right"></i></button>
+            <button class="pagination-btn" disabled><i class="fas fa-angle-right"></i></button>
+            <span class="pagination-page active">1</span>
+            <span class="pagination-page">2</span>
+            <span class="pagination-page">3</span>
+            <span class="pagination-page">4</span>
+            <button class="pagination-btn"><i class="fas fa-angle-left"></i></button>
+            <button class="pagination-btn"><i class="fas fa-angle-double-left"></i></button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('studentSearch');
+    const table = document.getElementById('studentsTable');
+    const rows = table.getElementsByTagName('tr');
+    
+    // دالة البحث
+    function searchStudents() {
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        for (let i = 1; i < rows.length; i++) { // تخطي صف الهيدر
+            const row = rows[i];
+            const cells = row.getElementsByTagName('td');
+            let found = false;
+            
+            // البحث في جميع خلايا الصف (عدا خلايا الإجراءات)
+            for (let j = 1; j < cells.length - 1; j++) { 
+                const cellText = cells[j].textContent.toLowerCase();
+                if (cellText.includes(searchTerm)) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            row.style.display = found ? '' : 'none';
+        }
+    }
+    
+    // تفعيل البحث عند الكتابة
+    searchInput.addEventListener('input', searchStudents);
+    
+    // تفعيل البحث عند الضغط على زر البحث
+    document.querySelector('.search-btn').addEventListener('click', searchStudents);
+    
+    // تفعيل البحث عند الضغط على Enter
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchStudents();
+        }
+    });
+});
+</script>
+
+<style>
+    /* التصميم الأساسي */
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #2c3e50;
+        --accent-color: #e74c3c;
+        --success-color: #2ecc71;
+        --light-color: #ecf0f1;
+        --dark-color: #34495e;
+        --gray-color: #95a5a6;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .student-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .student-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .student-title {
+        color: var(--secondary-color);
+        font-size: 2rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .student-title i {
+        color: var(--primary-color);
+    }
+
+    .student-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    /* تصميم الجدول */
+    .table-responsive {
+        overflow-x: auto;
+        box-shadow: var(--shadow);
+        border-radius: 10px;
+        background: white;
+    }
+
+    .student-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+
+    .student-table thead {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+
+    .student-table th {
+        padding: 1rem;
+        text-align: right;
+        font-weight: 600;
+    }
+
+    .student-table td {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid #eee;
+        text-align: right;
+    }
+
+    .student-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* العناصر الخاصة */
+    .student-avatar {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        justify-content: flex-end;
+    }
+
+    .student-avatar img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .status-badge {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .status-badge.active {
+        background-color: rgba(46, 204, 113, 0.2);
+        color: var(--success-color);
+    }
+
+    .status-badge.inactive {
+        background-color: rgba(231, 76, 60, 0.2);
+        color: var(--accent-color);
+    }
+
+    .level-badge {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        background-color: rgba(52, 152, 219, 0.2);
+        color: var(--primary-color);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .male-icon {
+        color: var(--primary-color);
+    }
+
+    .female-icon {
+        color: #e84393;
+    }
+
+    .email-link, .phone-link {
+        color: var(--dark-color);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .email-link:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+    }
+
+    .phone-link:hover {
+        color: var(--success-color);
+        text-decoration: underline;
+    }
+
+    /* أزرار الإجراءات */
+    .actions-cell {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .btn-action {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .view-btn {
+        color: var(--primary-color);
+    }
+
+    .view-btn:hover {
+        background-color: rgba(52, 152, 219, 0.2);
+    }
+
+    .edit-btn {
+        color: #f39c12;
+    }
+
+    .edit-btn:hover {
+        background-color: rgba(243, 156, 18, 0.2);
+    }
+
+    .delete-btn {
+        color: var(--accent-color);
+    }
+
+    .delete-btn:hover {
+        background-color: rgba(231, 76, 60, 0.2);
+    }
+
+    /* التصفح بين الصفحات */
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+        padding: 1rem 0;
+    }
+
+    .pagination-info {
+        color: var(--gray-color);
+        font-size: 0.9rem;
+    }
+
+    .pagination-info span {
+        color: var(--dark-color);
+        font-weight: 600;
+    }
+
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .pagination-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+    }
+
+    .pagination-btn:not(:disabled):hover {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+
+    .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .pagination-page {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .pagination-page.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    /* الأزرار ومربع البحث */
+    .btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-add {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn-add:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    .search-box {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    .search-input {
+        padding: 0.6rem 1rem;
+        border: none;
+        outline: none;
+        min-width: 250px;
+    }
+
+    .search-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0 1rem;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    /* التجاوب مع الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .student-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .student-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+        
+        .search-box {
+            width: 100%;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+        }
+    }
+</style>
+
+{% include 'lab4/footer.html' %}
+{% endblock content %}

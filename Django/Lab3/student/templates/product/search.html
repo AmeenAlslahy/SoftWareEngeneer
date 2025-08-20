@@ -1,0 +1,25 @@
+{% extends 'product/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">نتائج البحث</h1>
+    
+    {% if query %}
+        <p class="mb-4">عرض النتائج لـ "<strong>{{ query }}</strong>"</p>
+    {% endif %}
+    
+    <div class="row">
+        {% if products %}
+            {% for product in products %}
+                <div class="col-lg-3 col-md-4 col-6 mb-4">
+                    <!-- بطاقة المنتج هنا -->
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">لا توجد منتجات مطابقة لبحثك.</div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

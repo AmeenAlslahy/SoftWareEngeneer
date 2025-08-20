@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        #main{
+            width: 40%;
+            height: 300px;
+            margin:auto;
+            margin-top:100px;
+            box-shadow:1px 10px black;
+            border:2px solid black;
+            text-align:center;
+            line-height:50px;
+            padding:20px;
+        }
+        input{
+            width: 90%;
+            margin: auto;
+            text-align:center;
+        }
+        #title{
+            margin:auto;
+            direction:cener;
+        }
+        .log{
+            width: 50%;
+        }
+        a{
+            color:red;
+        }
+    </style>
+</head>
+<body dir='rtl'>
+    <form action="">
+        <div id="main">
+            <center><h2 id="title">تسجيل الدخول</h2></center>
+            <input type="email" name="email" id="" placeholder="البريد الالكتروني">
+            <input type="password" name="pass" id="" placeholder="كلمة المرور">
+            <input type="submit" value="تسجيل الدخول" class='log'><br>
+            <div>
+            هل لديك حساب بالفعل؟ <a href=" {% url 'signin'%} ">حساب جديد</a>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

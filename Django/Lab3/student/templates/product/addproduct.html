@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>shop online</title>
+    <style>
+        .main{
+    width: 40%;
+    /* background-color: antiquewhite; */
+    box-shadow: 1px 10px silver;
+    margin-top: 45px;
+    padding: 10px;
+}
+h2{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif , 'sasns-serif';
+    color: red;;
+}
+input{
+    margin-bottom: 10px;
+    width: 60%;
+    padding: 5px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 15px;
+    font-weight: bold;
+}
+button{
+    border: none;
+    padding: 10px;
+    width: 40%;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #1ac15c;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+    margin-bottom: 15px;
+}
+label{
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #1f87bf;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+}   
+a{
+    text-decoration: none;
+    font-size: 20px;
+    color: tomato;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+
+}
+    </style>
+</head>
+<body>
+    <center>
+        <div class="main">
+            <form action="insert.php" method="post" enctype="multipart/form-data">
+            <!-- <form method="POST" enctype="multipart/form-data"> -->
+                <h2>موقع تسويقي اونلاين</h2>
+                {% load static %}
+                <img src="{% static 'images/7.jpg' %}" alt="logo" width="450px">
+                <input type="text" name='item_name'>
+                <br>
+                <input type="text" name='price' id="">
+                <br>
+                <input type="file" name='image' id="file"  style = "display:none;" >
+                <label for="file">اختار صورة</label>
+                <button name='uplaod'>رفع المنتج </button>
+                <br>
+                {%load static%}
+                <a href="{% url 'products' %} ">عرض جميع المنتجات</a>
+            </form>
+        </div>
+        <p>المصمم امين الصلاحي</p>
+    </center>
+</body>
+</html>

@@ -1,0 +1,149 @@
+{% extends 'lab4/base.html' %}
+
+{% block title %}تأكيد حذف الطالب{% endblock %}
+
+{% block content %}
+<div class="container confirmation-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title text-center mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i> تأكيد الحذف
+                    </h3>
+                </div>
+                <div class="card-body text-center py-4">
+                    <div class="confirmation-icon">
+                        <i class="fas fa-user-slash text-danger"></i>
+                    </div>
+                    <h4 class="confirmation-title mt-3">هل أنت متأكد من حذف هذا الطالب؟</h4>
+                    
+                    <div class="student-info mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="info-item">
+                                    <span class="info-label">الاسم:</span>
+                                    <span class="info-value">{{ student.name }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-item">
+                                    <span class="info-label">المستوى:</span>
+                                    <span class="info-value">{{ student.level }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-item">
+                                    <span class="info-label">الحالة:</span>
+                                    <span class="badge bg-{% if student.state == 'نشط' %}success{% else %}danger{% endif %}">
+                                        {{ student.state }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-item">
+                                    <span class="info-label">رقم الهاتف:</span>
+                                    <span class="info-value">{{ student.phone }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning mt-4">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>تنبيه:</strong> هذه العملية لا يمكن التراجع عنها. سيتم حذف جميع بيانات الطالب بشكل دائم.
+                    </div>
+                    
+                    <form method="POST" class="mt-4">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                <i class="fas fa-trash-alt me-2"></i> نعم، احذف
+                            </button>
+                            <a href="{% url 'student_list' %}" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times me-2"></i> إلغاء
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-light text-center">
+                    <small class="text-muted">آخر تعديل: {{ student.updated_at|date:"Y/m/d H:i" }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.confirmation-container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.confirmation-icon {
+    font-size: 4rem;
+    color: #dc3545;
+    margin-bottom: 1.5rem;
+}
+
+.confirmation-title {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.student-info {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #6c757d;
+    margin-bottom: 0.3rem;
+}
+
+.info-value {
+    font-size: 1.1rem;
+}
+
+.card {
+    border-radius: 0.8rem;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.2rem;
+}
+
+.btn-lg {
+    padding: 0.5rem 1.5rem;
+    min-width: 150px;
+}
+
+@media (max-width: 576px) {
+    .confirmation-icon {
+        font-size: 3rem;
+    }
+    
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .d-flex {
+        flex-direction: column;
+    }
+    
+    .gap-3 {
+        gap: 0.5rem !important;
+    }
+}
+</style>
+{% endblock %}

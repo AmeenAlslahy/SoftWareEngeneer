@@ -1,0 +1,457 @@
+{% extends 'product/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- قسم الشرائح (Slider) -->
+<section class="hero-slider mb-5">
+    <div id="mainSlider" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#mainSlider" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner rounded-3">
+            <div class="carousel-item active">
+                <img src="{% static 'images/7.jpg' %}" class="d-block w-100" alt="عروض خاصة">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2 class="display-4 fw-bold">عروض خاصة على الأجهزة الذكية</h2>
+                    <p class="fs-5">خصومات تصل إلى 30% على أحدث الأجهزة</p>
+                    <a href="#" class="btn btn-primary btn-lg">تسوق الآن</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/8.jpg' %}" class="d-block w-100" alt="أحدث الأجهزة">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2 class="display-4 fw-bold">أحدث الأجهزة اللوحية</h2>
+                    <p class="fs-5">اكتشف أحدث التقنيات بأسعار تنافسية</p>
+                    <a href="#" class="btn btn-primary btn-lg">استعرض المنتجات</a>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/8.jpg' %}" class="d-block w-100" alt="إكسسوارات">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2 class="display-4 fw-bold">إكسسوارات بجودة عالية</h2>
+                    <p class="fs-5">أفضل الإكسسوارات لأجهزتك الإلكترونية</p>
+                    <a href="#" class="btn btn-primary btn-lg">اكتشف المزيد</a>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<!-- قسم المميزات -->
+<section class="features py-5 mb-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="feature-box text-center p-3">
+                    <div class="icon mb-3" style="color: var(--secondary-color);">
+                        <i class="fas fa-truck fa-3x"></i>
+                    </div>
+                    <h5 class="fw-bold">شحن سريع</h5>
+                    <p class="text-muted">توصيل خلال 24-48 ساعة</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="feature-box text-center p-3">
+                    <div class="icon mb-3" style="color: var(--secondary-color);">
+                        <i class="fas fa-shield-alt fa-3x"></i>
+                    </div>
+                    <h5 class="fw-bold">ضمان المنتج</h5>
+                    <p class="text-muted">ضمان يصل إلى سنتين</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="feature-box text-center p-3">
+                    <div class="icon mb-3" style="color: var(--secondary-color);">
+                        <i class="fas fa-headset fa-3x"></i>
+                    </div>
+                    <h5 class="fw-bold">دعم فني</h5>
+                    <p class="text-muted">دعم فني على مدار الساعة</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="feature-box text-center p-3">
+                    <div class="icon mb-3" style="color: var(--secondary-color);">
+                        <i class="fas fa-undo fa-3x"></i>
+                    </div>
+                    <h5 class="fw-bold">إرجاع سهل</h5>
+                    <p class="text-muted">إمكانية الإرجاع خلال 14 يوم</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- قسم الفئات -->
+<section class="categories mb-5">
+    <div class="container">
+        <div class="section-header mb-4 d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold">تصفح الفئات</h2>
+            <a href="{% url 'products' %}" class="btn btn-outline-primary">عرض الكل</a>
+        </div>
+        <div class="row g-4">
+            {% for category in featured_categories %}
+            <div class="col-lg-3 col-md-6">
+                <div class="category-card card border-0 shadow-sm h-100">
+                    <a href="#">
+                        <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                    </a>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <a href="#" class="btn btn-sm btn-outline-primary">استعرض المنتجات</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- قسم المنتجات المميزة -->
+<section class="featured-products mb-5">
+    <div class="container">
+        <div class="section-header mb-4 d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold">منتجات مميزة</h2>
+            <a href="{% url 'products' %}?filter=featured" class="btn btn-outline-primary">عرض الكل</a>
+        </div>
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="product-card card border-0 shadow-sm h-100">
+                    <div class="badge-container position-absolute top-0 start-0 p-2">
+                        {% if product.is_new %}
+                        <span class="badge bg-success">جديد</span>
+                        {% endif %}
+                        {% if product.discount_percentage %}
+                        <span class="badge bg-danger">{{ product.discount_percentage }}% خصم</span>
+                        {% endif %}
+                    </div>
+                    <a href="#">
+                        <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    </a>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <a href="#" class="text-muted small">{{ product.category.name }}</a>
+                            <div class="rating small text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-muted ms-1">({{ product.review_count }})</span>
+                            </div>
+                        </div>
+                        <h5 class="card-title">
+                            <a href="#" class="text-dark">{{ product.name }}</a>
+                        </h5>
+                        <div class="price mb-3">
+                            {% if product.discount_price %}
+                            <span class="text-danger fw-bold">{{ product.discount_price }} ر.س</span>
+                            <span class="text-muted text-decoration-line-through ms-2">{{ product.price }} ر.س</span>
+                            {% else %}
+                            <span class="fw-bold">{{ product.price }} ر.س</span>
+                            {% endif %}
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}">
+                                <i class="fas fa-shopping-cart me-1"></i> أضف إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- قسم العروض الخاصة -->
+<section class="special-offer mb-5 py-5" style="background-color: #e9f5fe;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="{% static 'images/special-offer.jpg' %}" class="img-fluid rounded-3 shadow" alt="عرض خاص">
+            </div>
+            <div class="col-lg-6">
+                <div class="offer-content">
+                    <span class="badge bg-danger mb-2">عرض محدود</span>
+                    <h2 class="fw-bold mb-3">خصم 25% على جميع أجهزة اللابتوب</h2>
+                    <p class="lead mb-4">احصل على أفضل أجهزة اللابتوب بخصم 25% لفترة محدودة. العرض ساري حتى نهاية الشهر أو نفاذ الكمية.</p>
+                    <div class="countdown mb-4">
+                        <div class="d-flex justify-content-start">
+                            <div class="countdown-item text-center me-2">
+                                <div class="countdown-number bg-primary text-white rounded-2 p-2 fs-4 fw-bold">05</div>
+                                <div class="countdown-label small">أيام</div>
+                            </div>
+                            <div class="countdown-item text-center me-2">
+                                <div class="countdown-number bg-primary text-white rounded-2 p-2 fs-4 fw-bold">12</div>
+                                <div class="countdown-label small">ساعات</div>
+                            </div>
+                            <div class="countdown-item text-center me-2">
+                                <div class="countdown-number bg-primary text-white rounded-2 p-2 fs-4 fw-bold">45</div>
+                                <div class="countdown-label small">دقائق</div>
+                            </div>
+                            <div class="countdown-item text-center">
+                                <div class="countdown-number bg-primary text-white rounded-2 p-2 fs-4 fw-bold">30</div>
+                                <div class="countdown-label small">ثواني</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary btn-lg">استفد من العرض الآن</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- قسم آخر المنتجات -->
+<section class="new-products mb-5">
+    <div class="container">
+        <div class="section-header mb-4 d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold">أحدث المنتجات</h2>
+            <a href="{% url 'products' %}?filter=new" class="btn btn-outline-primary">عرض الكل</a>
+        </div>
+        <div class="row g-4">
+            {% for product in new_products %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="product-card card border-0 shadow-sm h-100">
+                    <div class="badge-container position-absolute top-0 start-0 p-2">
+                        <span class="badge bg-success">جديد</span>
+                    </div>
+                    <a href="#">
+                        <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    </a>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <a href="#" class="text-muted small">{{ product.category.name }}</a>
+                            <div class="rating small text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="text-muted ms-1">({{ product.review_count }})</span>
+                            </div>
+                        </div>
+                        <h5 class="card-title">
+                            <a href="#" class="text-dark">{{ product.name }}</a>
+                        </h5>
+                        <div class="price mb-3">
+                            <span class="fw-bold">{{ product.price }} ر.س</span>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-outline-primary add-to-cart" data-product-id="{{ product.id }}">
+                                <i class="fas fa-shopping-cart me-1"></i> أضف إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- قسم العلامات التجارية -->
+<section class="brands py-4 mb-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="section-header mb-4 text-center">
+            <h2 class="fw-bold">العلامات التجارية</h2>
+        </div>
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="brand-slider">
+                    <div class="owl-carousel owl-theme">
+                        <div class="item">
+                            <img src="{% static 'images/brands/apple.png' %}" class="img-fluid" alt="Apple">
+                        </div>
+                        <div class="item">
+                            <img src="{% static 'images/brands/samsung.png' %}" class="img-fluid" alt="Samsung">
+                        </div>
+                        <div class="item">
+                            <img src="{% static 'images/brands/huawei.png' %}" class="img-fluid" alt="Huawei">
+                        </div>
+                        <div class="item">
+                            <img src="{% static 'images/brands/dell.png' %}" class="img-fluid" alt="Dell">
+                        </div>
+                        <div class="item">
+                            <img src="{% static 'images/brands/hp.png' %}" class="img-fluid" alt="HP">
+                        </div>
+                        <div class="item">
+                            <img src="{% static 'images/brands/sony.png' %}" class="img-fluid" alt="Sony">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- قسم المدونة -->
+<section class="blog mb-5">
+    <div class="container">
+        <div class="section-header mb-4 d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold">أحدث المقالات</h2>
+            <a href="#" class="btn btn-outline-primary">عرض الكل</a>
+        </div>
+        <div class="row g-4">
+            {% for post in latest_posts %}
+            <div class="col-lg-4 col-md-6">
+                <div class="blog-card card border-0 shadow-sm h-100">
+                    <a href="#">
+                        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                    </a>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i> {{ post.publish_date|date:"Y-m-d" }}</span>
+                            <span class="text-muted small"><i class="far fa-eye me-1"></i> {{ post.views }}</span>
+                        </div>
+                        <h5 class="card-title">
+                            <a href="#" class="text-dark">{{ post.title }}</a>
+                        </h5>
+                        <p class="card-text">{{ post.excerpt|truncatewords:20 }}</p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">قراءة المزيد</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- قسم النشرة البريدية -->
+<section class="newsletter py-5 mb-5" style="background-color: var(--primary-color); color: white;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="fw-bold mb-3">اشترك في نشرتنا البريدية</h2>
+                <p class="mb-4">احصل على آخر العروض والتخفيضات مباشرة إلى بريدك الإلكتروني</p>
+                <form class="row g-2 justify-content-center">
+                    <div class="col-md-8">
+                        <input type="email" class="form-control form-control-lg" placeholder="بريدك الإلكتروني">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-light btn-lg w-100">اشترك الآن</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* إضافة أنماط إضافية */
+    .hero-slider .carousel-item {
+        height: 500px;
+    }
+    
+    .hero-slider .carousel-item img {
+        object-fit: cover;
+        height: 100%;
+    }
+    
+    .hero-slider .carousel-caption {
+        right: 10%;
+        left: 10%;
+        bottom: 20%;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 10px;
+    }
+    
+    .product-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .category-card img {
+        height: 200px;
+        object-fit: contain;
+        padding: 20px;
+    }
+    
+    .blog-card img {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .brand-slider .item {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .brand-slider img {
+        max-height: 60px;
+        width: auto;
+        filter: grayscale(100%);
+        opacity: 0.7;
+        transition: all 0.3s;
+    }
+    
+    .brand-slider img:hover {
+        filter: grayscale(0);
+        opacity: 1;
+    }
+    
+    .countdown-number {
+        min-width: 50px;
+    }
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<!-- Owl Carousel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+<script>
+    $(document).ready(function(){
+        // Initialize brand slider
+        $('.owl-carousel').owlCarousel({
+            rtl: true,
+            loop: true,
+            margin: 30,
+            nav: false,
+            dots: false,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        });
+        
+        // Add to cart functionality
+        $('.add-to-cart').click(function(){
+            const productId = $(this).data('product-id');
+            // Here you can add AJAX call to add product to cart
+            alert('تمت إضافة المنتج إلى السلة');
+        });
+        
+        // Countdown timer for special offer
+        // You can implement a real countdown here
+    });
+</script>
+{% endblock %}
