@@ -39,7 +39,7 @@ from .models import Students2
 from .forms import StudentForm
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Students
+# from .models import Students
 from django.db.models import Count
 import json
 from datetime import datetime, timedelta
@@ -104,10 +104,10 @@ def delete_student(request, student_id):
 
 def reports(request):
     # إحصائيات الطلاب حسب المستوى
-    level_stats = Students.objects.values('level').annotate(count=Count('id')).order_by('level')
+    level_stats = Students2.objects.values('level').annotate(count=Count('id')).order_by('level')
     
     # إحصائيات الطلاب حسب الجنس
-    gender_stats = Students.objects.values('gender').annotate(count=Count('id'))
+    gender_stats = Students2.objects.values('gender').annotate(count=Count('id'))
     
     # تحويل البيانات لصيغة JSON للرسوم البيانية
     level_labels = [item['level'] for item in level_stats]
@@ -117,7 +117,7 @@ def reports(request):
     gender_data = [item['count'] for item in gender_stats]
     
     # تقرير الطلاب مع التصفية
-    students = Students.objects.all().order_by('-created_at')
+    students = Students2.objects.all()
     
     # تصفية حسب المستوى إذا وجدت في الطلب
     level_filter = request.GET.get('level')
@@ -134,12 +134,12 @@ def reports(request):
             'labels': gender_labels,
             'data': gender_data
         }),
-        'total_students': Students.objects.count(),
-        'active_students': Students.objects.filter(state='نشط').count(),
-        'inactive_students': Students.objects.filter(state='غير نشط').count(),
+        'total_students': Students2.objects.count(),
+        'active_students': Students2.objects.filter(state='نشط').count(),
+        'inactive_students': Students2.objects.filter(state='غير نشط').count(),
     }
     
-    return render(request, 'students/reports.html', context)
+    return render(request, 'lab4/reports.html', context)
 
 def export_report(request):
     # هنا يمكنك إضافة كود لتصدير التقارير بصيغ مختلفة
